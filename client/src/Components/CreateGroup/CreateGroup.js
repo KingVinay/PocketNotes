@@ -17,13 +17,15 @@ const CreateGroup = ({ addGroup, closeModal }) => {
   const modalRef = useRef(null);
 
   const handleCreate = async () => {
-    const group = { name: groupName, color };
     try {
-      // const response = await axios.post(
-      //   "http://localhost:4000/api/group/create",
-      //   group
-      // );
-      addGroup(group);
+      const response = await axios.post(
+        "http://localhost:4000/api/group/create",
+        {
+          groupName,
+          groupColor: color,
+        }
+      );
+      addGroup(response.data.savedGroup);
       closeModal();
     } catch (error) {
       console.error("Error creating group:", error);

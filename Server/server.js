@@ -12,6 +12,8 @@ app.use(cors());
 // express parser
 app.use(express.json());
 
+const groupRoute = require("./Routes/group");
+
 const mongoose = require("mongoose");
 
 mongoose
@@ -26,6 +28,14 @@ app.get("/api/health", (req, res) => {
     status: "active",
     time: new Date(),
   });
+});
+
+app.use("/api/group", groupRoute);
+
+// Middleware for Error
+app.use((error, req, res, next) => {
+  console.log(error);
+  res.status(500).json({ errorMessage: "Something went wrong!" });
 });
 
 app.listen(PORT, () => {

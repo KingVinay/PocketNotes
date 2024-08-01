@@ -33,3 +33,5 @@ const groupSchema = new mongoose.Schema(
     timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" },
   }
 );
+
+module.exports = mongoose.model("Group", groupSchema);

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./GroupCard.module.css";
+import SendImg from "../../Assets/send.png";
 
 const GroupCard = ({ group }) => {
   const [notes, setNotes] = useState(group.notes || []);
@@ -27,15 +28,19 @@ const GroupCard = ({ group }) => {
 
   return (
     <div className={styles.groupCard}>
-      <div className={styles.header} style={{ backgroundColor: group.color }}>
-        <div className={styles.initials}>
-          {group.name
+      <div className={styles.header}>
+        <div
+          className={styles.initials}
+          style={{ backgroundColor: group.groupColor }}
+        >
+          {group.groupName
             .split(" ")
             .map((word) => word[0].toUpperCase())
             .join("")
             .slice(0, 2)}
         </div>
-        <span className={styles.groupName}>{group.name}</span>
+        <span className={styles.groupName}>{group.groupName}</span>
+        <button>Share</button>
       </div>
       <div className={styles.notesContainer}>
         {notes.map((note, index) => (
@@ -48,11 +53,11 @@ const GroupCard = ({ group }) => {
         ))}
       </div>
       <div className={styles.inputContainer}>
-        <input
-          type="text"
+        <textarea
+          rows={5}
           value={newNote}
           onChange={(e) => setNewNote(e.target.value)}
-          placeholder="Type a note"
+          placeholder="Enter your text here.........."
           className={styles.inputField}
         />
         <button
@@ -60,7 +65,7 @@ const GroupCard = ({ group }) => {
           onClick={handleAddNote}
           disabled={newNote.trim() === ""}
         >
-          Send
+          <img src={SendImg} alt="send" />
         </button>
       </div>
     </div>

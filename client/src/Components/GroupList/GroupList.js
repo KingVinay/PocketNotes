@@ -1,6 +1,5 @@
-// src/GroupList.js
 import React, { useState, useEffect } from "react";
-// import axios from 'axios';
+import axios from "axios";
 import styles from "./GroupList.module.css";
 import CreateGroup from "../CreateGroup/CreateGroup";
 
@@ -10,7 +9,14 @@ const GroupList = ({ onSelectGroup }) => {
   const [selectedGroupName, setSelectedGroupName] = useState("");
 
   const fetchGroups = async () => {
-    // Fetch groups from the backend if needed
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/api/group/fetchgroups"
+      );
+      setGroups(response.data);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
   };
 
   useEffect(() => {
@@ -22,7 +28,7 @@ const GroupList = ({ onSelectGroup }) => {
   };
 
   const handleGroupClick = (group) => {
-    setSelectedGroupName(group.name);
+    setSelectedGroupName(group.groupName);
     onSelectGroup(group);
   };
 
@@ -32,25 +38,26 @@ const GroupList = ({ onSelectGroup }) => {
         <h2>Pocket Notes</h2>
       </div>
       <div className={styles.groups}>
+        <input type="text" className={styles.searchInput} />
         {groups.map((group, index) => (
           <div
             key={index}
             className={`${styles.groupCard} ${
-              selectedGroupName === group.name ? styles.selected : ""
+              selectedGroupName === group.groupName ? styles.selected : ""
             }`}
             onClick={() => handleGroupClick(group)}
           >
             <div
               className={styles.groupInitials}
-              style={{ backgroundColor: group.color }}
+              style={{ backgroundColor: group.groupColor }}
             >
-              {group.name
+              {group.groupName
                 .split(" ")
                 .map((word) => word[0].toUpperCase())
                 .join("")
                 .slice(0, 2)}
             </div>
-            <span className={styles.groupName}>{group.name}</span>
+            <span className={styles.groupName}>{group.groupName}</span>
           </div>
         ))}
       </div>

@@ -6,7 +6,7 @@
 }
 
 .header {
-  background: blue;
+  background: #001f8b;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -19,8 +19,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: white;
-  color: blue;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +32,7 @@
 
 .notesContainer {
   flex-grow: 1;
-  background: skyblue;
+  background: #dae5f5;
   padding: 10px;
   overflow-y: auto;
 }
@@ -59,7 +58,8 @@
 }
 
 .inputContainer {
-  background: #dae5f5;
+  height: 7rem;
+  background: #001f8b;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -68,19 +68,25 @@
 
 .inputField {
   flex-grow: 1;
-  padding: 10px;
+  font-size: 0.95rem;
+  padding: 15px;
   border-radius: 5px;
   border: none;
 }
 
 .sendButton {
-  background: white;
-  color: blue;
+  position: absolute;
+  background-color: white;
   border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
-  border-radius: 5px;
+  right: 2rem;
+  bottom: 1.5rem;
+  color: black;
   cursor: pointer;
+}
+
+.sendButton img {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .sendButton:disabled {
