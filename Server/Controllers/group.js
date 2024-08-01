@@ -113,7 +113,10 @@ const searchGroup = async (req, res, next) => {
       return res.status(400).json({ error: "query parameter is required" });
     }
 
-    const groups = await Group.find({ name: new RegExp(query, "i") }).exec();
+    const groups = await Group.find({
+      groupName: new RegExp(query, "i"),
+    }).exec();
+
     res.json(groups);
   } catch (error) {
     next(error);

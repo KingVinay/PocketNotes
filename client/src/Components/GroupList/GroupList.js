@@ -8,6 +8,8 @@ const GroupList = ({ onSelectGroup }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedGroupName, setSelectedGroupName] = useState("");
 
+  const [query, setQuery] = useState("");
+
   const fetchGroups = async () => {
     try {
       const response = await axios.get(
@@ -32,13 +34,46 @@ const GroupList = ({ onSelectGroup }) => {
     onSelectGroup(group);
   };
 
+  const handleInputChange = async (event) => {
+    const searchQuery = event.target.value;
+    setQuery(searchQuery);
+
+    if (searchQuery.length < 1) {
+      // Clear results if query is too short
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/group/fetchgroups`
+        );
+        setGroups(response.data);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/group/searchGroups?query=${searchQuery}`
+      );
+      setGroups(response.data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  };
+
   return (
     <div className={styles.groupList}>
       <div className={styles.header}>
         <h2>Pocket Notes</h2>
       </div>
       <div className={styles.groups}>
-        <input type="text" className={styles.searchInput} />
+        <input
+          type="text"
+          className={styles.searchInput}
+          value={query}
+          onChange={handleInputChange}
+          placeholder="Search for groups..."
+        />
         {groups.map((group, index) => (
           <div
             key={index}
