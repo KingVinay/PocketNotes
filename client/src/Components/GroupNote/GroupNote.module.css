@@ -1,0 +1,43 @@
+.groupNote {
+  width: 80vw;
+  height: 100vh;
+  background-color: #dae5f5;
+  margin-left: 17rem;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.defaultView {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.defaultView p {
+  width: 30rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.defaultImage {
+  width: 30rem; /* Adjust size as needed */
+  margin-bottom: 20px;
+}
+
+.encryptionInfo {
+  display: flex;
+  color: #292929;
+  align-items: center;
+  margin-top: 9rem;
+}
+
+.lockIcon {
+  width: 13px; /* Adjust size as needed */
+  margin-right: 10px;
+}
