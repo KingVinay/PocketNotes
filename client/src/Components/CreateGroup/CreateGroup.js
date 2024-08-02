@@ -19,7 +19,7 @@ const CreateGroup = ({ addGroup, closeModal }) => {
   const handleCreate = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/group/create",
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/create`,
         {
           groupName,
           groupColor: color,

@@ -12,7 +12,7 @@ const GroupCard = ({ group }) => {
   const fetchNotes = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/group/${group._id}/fetchnotes`
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/${group._id}/fetchnotes`
       );
       setNotes(response.data);
     } catch (error) {
@@ -30,7 +30,7 @@ const GroupCard = ({ group }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/group/${group._id}/addNote`,
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/${group._id}/addNote`,
         {
           content: newNote,
         }
@@ -46,7 +46,7 @@ const GroupCard = ({ group }) => {
   const handleGroupShare = async (groupId) => {
     try {
       const response = await axios(
-        `http://localhost:4000/api/group/shareGroup/${groupId}`
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/shareGroup/${groupId}`
       );
       navigator.clipboard.writeText(response.data.shareableLink);
     } catch (error) {
@@ -57,7 +57,7 @@ const GroupCard = ({ group }) => {
   const handleNoteShare = async (noteId) => {
     try {
       const response = await axios(
-        `http://localhost:4000/api/group/shareNote/${noteId}`
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/shareNote/${noteId}`
       );
       navigator.clipboard.writeText(response.data.shareableLink);
     } catch (error) {

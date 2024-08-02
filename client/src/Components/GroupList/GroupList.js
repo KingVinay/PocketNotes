@@ -13,7 +13,7 @@ const GroupList = ({ onSelectGroup }) => {
   const fetchGroups = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/group/fetchgroups"
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/fetchgroups`
       );
       setGroups(response.data);
     } catch (error) {
@@ -42,7 +42,7 @@ const GroupList = ({ onSelectGroup }) => {
       // Clear results if query is too short
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/group/fetchgroups`
+          `${process.env.REACT_APP_BACKEND_HOST}/api/group/fetchgroups`
         );
         setGroups(response.data);
       } catch (err) {
