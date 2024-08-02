@@ -1,0 +1,35 @@
+.noteCard {
+  width: 35rem;
+  height: 5rem;
+  margin-left: 25rem;
+  margin-top: 3rem;
+  background: white;
+  color: black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: solid 1px black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.noteContent {
+  flex-grow: 1;
+}
+
+.noteDate {
+  display: flex;
+  align-self: flex-end;
+  font-size: 12px;
+  color: gray;
+}
+
+.bulletList {
+  margin: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #353535;
+}

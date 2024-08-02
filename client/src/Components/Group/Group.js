@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Group() {
   const { groupId } = useParams();
   const [group, setGroup] = useState([]);
-  const [notes, setNotes] = useState(group.notes || []);
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -19,10 +19,8 @@ function Group() {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_HOST}/api/group/getGroupById/${groupId}`
         );
-        console.log(response.data.group);
         setGroup(response.data);
-        console.log(group);
-        setNotes(group.notes);
+        setNotes(response.data.notes);
       } catch (error) {
         console.error("Error fetching groups:", error);
       }

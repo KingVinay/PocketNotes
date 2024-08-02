@@ -11,6 +11,6 @@ router.get("/getGroupById/:groupId", groupController.getGroupById);
 router.post("/:groupId/addNote", groupController.addNote);
 router.get("/:groupId/fetchnotes", groupController.getNotes);
 router.get("/shareNote/:noteId", groupController.shareNote);
-router.get("/shareNote/:noteId", groupController.getNoteById);
+router.get("/getNoteById/:noteId", groupController.getNoteById);
 
 module.exports = router;

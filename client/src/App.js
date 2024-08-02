@@ -6,6 +6,7 @@ import Group from "./Components/Group/Group";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Note from "./Components/Note/Note";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/groups/:groupId" element={<Group />} />
+          <Route path="/:groupId/notes/:noteId" element={<Note />} />
         </Routes>
       </Router>
     </>
