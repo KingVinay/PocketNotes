@@ -5,19 +5,22 @@ import ShareImg from "../../Assets/share.png";
 import formatDateTime from "../../Utils/FormatDateTime";
 import { useParams } from "react-router-dom";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Group() {
   const { groupId } = useParams();
   const [group, setGroup] = useState([]);
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(group.notes || []);
 
   useEffect(() => {
     const fetchGroup = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/group/getGroupById/${groupId}`
+          `${process.env.REACT_APP_BACKEND_HOST}/api/group/getGroupById/${groupId}`
         );
-        console.log(response.data);
-        setGroup(response.data);
+        console.log(response.data.group);
+        setGroup(...group, response.data);
         console.log(group);
         setNotes(group.notes);
       } catch (error) {
@@ -31,9 +34,10 @@ function Group() {
   const handleNoteShare = async (noteId) => {
     try {
       const response = await axios(
-        `http://localhost:4000/api/group/shareNote/${noteId}`
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/shareNote/${noteId}`
       );
       navigator.clipboard.writeText(response.data.shareableLink);
+      toast.success("Link copied successfully!");
     } catch (error) {
       console.error("Error sharing quiz:", error);
     }

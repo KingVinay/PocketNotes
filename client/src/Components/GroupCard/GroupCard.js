@@ -5,6 +5,9 @@ import SendImg from "../../Assets/send.png";
 import ShareImg from "../../Assets/share.png";
 import formatDateTime from "../../Utils/FormatDateTime";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const GroupCard = ({ group }) => {
   const [notes, setNotes] = useState(group.notes || []);
   const [newNote, setNewNote] = useState("");
@@ -38,6 +41,7 @@ const GroupCard = ({ group }) => {
 
       setNotes([...notes, response.data.savedNote]);
       setNewNote("");
+      toast.success("Note Added successfully!");
     } catch (error) {
       console.error("Error adding note:", error);
     }
@@ -49,6 +53,7 @@ const GroupCard = ({ group }) => {
         `${process.env.REACT_APP_BACKEND_HOST}/api/group/shareGroup/${groupId}`
       );
       navigator.clipboard.writeText(response.data.shareableLink);
+      toast.success("Link copied successfully!");
     } catch (error) {
       console.error("Error sharing quiz:", error);
     }
@@ -60,6 +65,7 @@ const GroupCard = ({ group }) => {
         `${process.env.REACT_APP_BACKEND_HOST}/api/group/shareNote/${noteId}`
       );
       navigator.clipboard.writeText(response.data.shareableLink);
+      toast.success("Link copied successfully!");
     } catch (error) {
       console.error("Error sharing quiz:", error);
     }

@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./CreateGroup.module.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateGroup = ({ addGroup, closeModal }) => {
   const [groupName, setGroupName] = useState("");
@@ -26,6 +28,7 @@ const CreateGroup = ({ addGroup, closeModal }) => {
         }
       );
       addGroup(response.data.savedGroup);
+      toast.success("Group created successfully!");
       closeModal();
     } catch (error) {
       console.error("Error creating group:", error);
