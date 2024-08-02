@@ -15,8 +15,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/groups/:groupId" element={<Group />} />
-
-          {/* <Route path="/group/:groupId" element={<Quiz />} /> */}
         </Routes>
       </Router>
     </>

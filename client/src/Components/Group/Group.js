@@ -20,7 +20,7 @@ function Group() {
           `${process.env.REACT_APP_BACKEND_HOST}/api/group/getGroupById/${groupId}`
         );
         console.log(response.data.group);
-        setGroup(...group, response.data);
+        setGroup(response.data);
         console.log(group);
         setNotes(group.notes);
       } catch (error) {

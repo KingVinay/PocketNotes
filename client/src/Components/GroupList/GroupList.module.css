@@ -35,6 +35,7 @@
 
 .groupCard {
   display: flex;
+  cursor: pointer;
   align-items: center;
   padding: 10px;
   padding-left: 2rem;
