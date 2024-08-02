@@ -6,24 +6,25 @@ import formatDateTime from "../../Utils/FormatDateTime";
 import { useParams } from "react-router-dom";
 
 function Group() {
-  const groupId = useParams();
+  const { groupId } = useParams();
   const [group, setGroup] = useState([]);
   const [notes, setNotes] = useState([]);
 
-  const fetchGroup = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/api/group/getGroupById/${groupId}`
-      );
-      console.log(response.data);
-      setGroup(response.data.group);
-      setNotes(group.notes);
-    } catch (error) {
-      console.error("Error fetching groups:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchGroup = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/group/getGroupById/${groupId}`
+        );
+        console.log(response.data);
+        setGroup(response.data);
+        console.log(group);
+        setNotes(group.notes);
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
+    };
+
     fetchGroup();
   }, []);
 
@@ -41,7 +42,7 @@ function Group() {
   return (
     <div className={styles.groupCard}>
       <div className={styles.header}>
-        <div
+        {/* <div
           className={styles.initials}
           style={{ backgroundColor: group.groupColor }}
         >
@@ -50,7 +51,7 @@ function Group() {
             .map((word) => word[0].toUpperCase())
             .join("")
             .slice(0, 2)}
-        </div>
+        </div> */}
         <span className={styles.groupName}>{group.groupName}</span>
       </div>
       <div className={styles.notesContainer}>
