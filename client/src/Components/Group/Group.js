@@ -1,58 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./GroupCard.module.css";
-import SendImg from "../../Assets/send.png";
+import styles from "./Group.module.css";
 import ShareImg from "../../Assets/share.png";
 import formatDateTime from "../../Utils/FormatDateTime";
+import { useParams } from "react-router-dom";
 
-const GroupCard = ({ group }) => {
-  const [notes, setNotes] = useState(group.notes || []);
-  const [newNote, setNewNote] = useState("");
+function Group() {
+  const groupId = useParams();
+  const [group, setGroup] = useState([]);
+  const [notes, setNotes] = useState([]);
 
-  const fetchNotes = async () => {
+  const fetchGroup = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/group/${group._id}/fetchnotes`
+        `http://localhost:4000/api/group/getGroupById/${groupId}`
       );
-      setNotes(response.data);
+      console.log(response.data);
+      setGroup(response.data.group);
+      setNotes(group.notes);
     } catch (error) {
       console.error("Error fetching groups:", error);
     }
   };
 
   useEffect(() => {
-    fetchNotes();
-    setNewNote("");
-  }, [group]);
-
-  const handleAddNote = async () => {
-    if (newNote.trim() === "") return;
-
-    try {
-      const response = await axios.post(
-        `http://localhost:4000/api/group/${group._id}/addNote`,
-        {
-          content: newNote,
-        }
-      );
-
-      setNotes([...notes, response.data.savedNote]);
-      setNewNote("");
-    } catch (error) {
-      console.error("Error adding note:", error);
-    }
-  };
-
-  const handleGroupShare = async (groupId) => {
-    try {
-      const response = await axios(
-        `http://localhost:4000/api/group/shareGroup/${groupId}`
-      );
-      navigator.clipboard.writeText(response.data.shareableLink);
-    } catch (error) {
-      console.error("Error sharing quiz:", error);
-    }
-  };
+    fetchGroup();
+  }, []);
 
   const handleNoteShare = async (noteId) => {
     try {
@@ -79,12 +52,6 @@ const GroupCard = ({ group }) => {
             .slice(0, 2)}
         </div>
         <span className={styles.groupName}>{group.groupName}</span>
-        <img
-          src={ShareImg}
-          className={styles.shareGroupImg}
-          alt="share"
-          onClick={() => handleGroupShare(group._id)}
-        />
       </div>
       <div className={styles.notesContainer}>
         {notes.map((note, index) => (
@@ -104,24 +71,8 @@ const GroupCard = ({ group }) => {
           </div>
         ))}
       </div>
-      <div className={styles.inputContainer}>
-        <textarea
-          rows={5}
-          value={newNote}
-          onChange={(e) => setNewNote(e.target.value)}
-          placeholder="Enter your text here.........."
-          className={styles.inputField}
-        />
-        <button
-          className={styles.sendButton}
-          onClick={handleAddNote}
-          disabled={newNote.trim() === ""}
-        >
-          <img src={SendImg} alt="send" />
-        </button>
-      </div>
     </div>
   );
-};
+}
 
-export default GroupCard;
+export default Group;

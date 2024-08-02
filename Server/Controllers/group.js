@@ -36,7 +36,7 @@ const createGroup = async (req, res, next) => {
 
 const addNote = async (req, res, next) => {
   try {
-    const groupId = req.params;
+    const { groupId } = req.params;
     const { content } = req.body;
 
     if (!groupId || !content) {
@@ -55,26 +55,25 @@ const addNote = async (req, res, next) => {
     // Create new note
     const newNote = {
       content,
+      shareableLink: "",
     };
 
     // Add note to the group's notes array
     group.notes.push(newNote);
 
     // Save the updated group
-    const savedNote = await group.save();
-    const NoteId = savedNote.notes.id();
+    const savedNoteGroup = await group.save();
 
-    savedNote.notes.shareableLink = `${process.env.FRONTEND_HOST}/group/notes/${savedNote._id}`;
+    const savedNote = savedNoteGroup.notes[group.notes.length - 1];
 
-    // Add note to the group's notes array
-    group.notes.push(newNote);
+    const shareableLink = `${process.env.FRONTEND_HOST}/${groupId}/notes/${savedNote._id}`;
+    savedNote.shareableLink = shareableLink;
 
-    // Save the updated group
-    await group.save();
+    await savedNoteGroup.save();
 
-    res.status(201).json({
+    res.json({
       message: "Note added successfully!",
-      note: newNote,
+      savedNote,
     });
   } catch (error) {
     next(error);
@@ -105,6 +104,30 @@ const shareGroup = async (req, res, next) => {
   }
 };
 
+const shareNote = async (req, res, next) => {
+  try {
+    const { noteId } = req.params;
+
+    // Find the group containing the note
+    const group = await Group.findOne({ "notes._id": noteId });
+
+    if (!group) {
+      return res.status(404).json({ errorMessage: "Note not found!" });
+    }
+
+    // Find the note within the group
+    const note = group.notes.id(noteId);
+
+    if (!note) {
+      return res.status(404).json({ errorMessage: "Note not found!" });
+    }
+
+    res.status(200).json({ shareableLink: note.shareableLink });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const searchGroup = async (req, res, next) => {
   try {
     const { query } = req.query;
@@ -123,4 +146,73 @@ const searchGroup = async (req, res, next) => {
   }
 };
 
-module.exports = { createGroup, addNote, getGroups, shareGroup, searchGroup };
+const getNotes = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ errorMessage: "Group not found!" });
+    }
+
+    res.json(group.notes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getGroupById = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    if (!groupId) {
+      return res.status(400).json({ errorMessage: "Group Id is required!" });
+    }
+
+    const group = await Group.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ errorMessage: "Group not found!" });
+    }
+
+    res.json(group);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getNoteById = async (req, res, next) => {
+  try {
+    const { noteId } = req.params;
+
+    // Find the group containing the note
+    const group = await Group.findOne({ "notes._id": noteId });
+
+    if (!group) {
+      return res.status(404).json({ errorMessage: "Note not found!" });
+    }
+
+    // Find the note within the group
+    const note = group.notes.id(noteId);
+
+    if (!note) {
+      return res.status(404).json({ errorMessage: "Note not found!" });
+    }
+
+    res.json(note);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createGroup,
+  addNote,
+  getGroups,
+  shareGroup,
+  shareNote,
+  searchGroup,
+  getNotes,
+  getGroupById,
+  getNoteById,
+};

@@ -1,19 +1,21 @@
-import { useState } from "react";
-import GroupList from "./Components/GroupList/GroupList";
-import GroupNote from "./Components/GroupNote/GroupNote";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-function App() {
-  const [selectedGroup, setSelectedGroup] = useState(null);
+import Dashboard from "./Components/Dashboard/Dashboard";
+import Group from "./Components/Group/Group";
 
-  const handleGroupSelect = (group) => {
-    setSelectedGroup(group);
-  };
+function App() {
   return (
-    <div>
-      <GroupList onSelectGroup={handleGroupSelect} />
-      <GroupNote selectedGroup={selectedGroup} />
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/groups/:groupId" element={<Group />} />
+
+          {/* <Route path="/group/:groupId" element={<Quiz />} /> */}
+        </Routes>
+      </Router>
+    </>
   );
 }
 
