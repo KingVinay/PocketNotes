@@ -53,7 +53,7 @@ const GroupList = ({ onSelectGroup }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/group/searchGroups?query=${searchQuery}`
+        `${process.env.REACT_APP_BACKEND_HOST}/api/group/searchGroups?query=${searchQuery}`
       );
       setGroups(response.data);
     } catch (err) {
